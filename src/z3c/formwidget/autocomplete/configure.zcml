@@ -1,0 +1,39 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:z3c="http://namespaces.zope.org/z3c"
+    i18n_domain="z3c.formwidget.autocomplete">
+
+    <browser:page
+        name="autocomplete-search"
+        for=".interfaces.IAutocompleteWidget"
+        permission="zope.Public"
+        class=".widget.AutocompleteSearch"
+        />
+
+    <!-- Widget classes. -->
+    <!-- =============== -->
+
+    <!-- AutocompleteSelection widget. -->
+    <class class=".widget.AutocompleteSelectionWidget">
+      <require
+          interface=".interfaces.IAutocompleteSelectionWidget"
+          permission="zope.Public"
+          />
+    </class>
+
+
+    <!-- AutocompleteMultiSelection widget. -->
+    <class class=".widget.AutocompleteMultiSelectionWidget">
+      <require
+          interface=".interfaces.IAutocompleteMultiSelectionWidget"
+          permission="zope.Public"
+          />
+    </class>
+
+    <browser:resourceDirectory
+        name="z3c.formwidget.autocomplete"
+        directory="jquery-autocomplete"
+        />
+
+</configure>

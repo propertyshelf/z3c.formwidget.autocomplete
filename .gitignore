@@ -1,0 +1,13 @@
+bin
+build
+develop-eggs
+dist
+eggs
+htmlcov
+parts
+*.egg-info
+
+.coverage
+.installed.cfg
+.mr.developer.cfg
+coverage.xml
