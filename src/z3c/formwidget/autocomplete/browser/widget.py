@@ -12,7 +12,7 @@ from zope.interface import implementsOnly, implementer
 from zope.security.proxy import removeSecurityProxy
 
 # local imports
-from z3c.formwidget.autocomplete import interfaces
+from z3c.formwidget.autocomplete.browser import interfaces
 
 
 class AutocompleteSearch(BrowserPagelet):
