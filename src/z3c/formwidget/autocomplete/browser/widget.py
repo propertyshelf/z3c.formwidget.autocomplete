@@ -132,7 +132,7 @@ class AutocompleteBase(object):
 
         return "%s/++widget++%s/@@autocomplete-search" % (
             form_url,
-            self.name,
+            self.__name__,
         )
 
     def js(self):
