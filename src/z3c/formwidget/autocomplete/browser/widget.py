@@ -12,7 +12,7 @@ from zope.interface import implementsOnly, implementer
 from zope.security.proxy import removeSecurityProxy
 
 # local imports
-from z3c.formwidget.autocomplete.browser import interfaces
+from z3c.formwidget.autocomplete.browser import interfaces, resources
 
 
 class AutocompleteSearch(BrowserPagelet):
@@ -118,6 +118,8 @@ class AutocompleteBase(object):
         return ""
 
     def render(self):
+        resources.autocomplete_js.need()
+        resources.autocomplete_css.need()
         if self.mode == DISPLAY_MODE:
             return self.display_template(self)
         else:

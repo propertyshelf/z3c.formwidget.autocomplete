@@ -51,11 +51,15 @@ setup(
     ),
     install_requires=[
         'setuptools',
+        # -*- Extra requirements: -*-
         'z3c.formwidget.query == 0.10',
         'z3c.pagelet',
         'zope.interface',
+        'fanstatic',
     ],
     entry_points="""
     # -*- Entry points: -*-
+    [fanstatic.libraries]
+    z3c.formwidget.autocomplete = z3c.formwidget.autocomplete.browser.resources:library
     """,
 )
