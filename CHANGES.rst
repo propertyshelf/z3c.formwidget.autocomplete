@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.1 (unreleased)
+0.1
 ------------------
 
-- Nothing changed yet.
+- Initial release.
