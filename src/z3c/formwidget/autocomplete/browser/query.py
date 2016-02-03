@@ -218,42 +218,12 @@ class QuerySourceRadioWidget(z3c.form.browser.radio.RadioWidget):
     def extractQueryWidget(self, default=z3c.form.interfaces.NOVALUE):
         return z3c.form.browser.radio.RadioWidget.extract(self, default)
 
-class QuerySourceCheckboxWidget(
-    QuerySourceRadioWidget, z3c.form.browser.checkbox.CheckBoxWidget):
-    """Query source widget that allows multiple selections."""
-
-    zope.interface.implementsOnly(z3c.form.interfaces.ICheckBoxWidget)
-
-    _radio = False
-
-    @property
-    def source(self):
-        return self.field.bind(self.context).value_type.source
-
-    def updateQueryWidget(self):
-        z3c.form.browser.checkbox.CheckBoxWidget.update(self)
-
-    def renderQueryWidget(self):
-        return z3c.form.browser.checkbox.CheckBoxWidget.render(self)
-
-    def extractQueryWidget(self, default=z3c.form.interfaces.NOVALUE):
-        return z3c.form.browser.checkbox.CheckBoxWidget.extract(self, default)
-
 @zope.interface.implementer(z3c.form.interfaces.IFieldWidget)
 def QuerySourceFieldRadioWidget(field, request):
     return z3c.form.widget.FieldWidget(field, QuerySourceRadioWidget(request))
 
-@zope.interface.implementer(z3c.form.interfaces.IFieldWidget)
-def QuerySourceFieldCheckboxWidget(field, request):
-    return z3c.form.widget.FieldWidget(field, QuerySourceCheckboxWidget(request))
-
 class IgnoreMissingQuerySourceRadioWidget(QuerySourceRadioWidget):
     """Query source widget that allows single selection and ignores missing
-    values."""
-    ignoreMissing = True
-
-class IgnoreMissingQuerySourceCheckboxWidget(QuerySourceRadioWidget):
-    """Query source widget that allows multiple selections and ignores missing
     values."""
     ignoreMissing = True
 
@@ -262,7 +232,3 @@ def IgnoreMissingQuerySourceFieldRadioWidget(field, request):
     return z3c.form.widget.FieldWidget(field,
         IgnoreMissingQuerySourceRadioWidget(request))
 
-@zope.interface.implementer(z3c.form.interfaces.IFieldWidget)
-def IgnoreMissingQuerySourceFieldCheckboxWidget(field, request):
-    return z3c.form.widget.FieldWidget(field,
-        IgnoreMissingQuerySourceCheckboxWidget(request))
