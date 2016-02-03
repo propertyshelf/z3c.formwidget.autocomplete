@@ -22,7 +22,7 @@
     <!-- =============== -->
 
     <!-- Query widget. -->
-    <class class=".query.QuerySourceCheckboxWidget">
+    <class class=".query.QuerySourceRadioWidget">
       <require
           interface="z3c.form.interfaces.ICheckBoxWidget"
           permission="zope.Public"
@@ -34,14 +34,6 @@
     <class class=".widget.AutocompleteSelectionWidget">
       <require
           interface=".interfaces.IAutocompleteSelectionWidget"
-          permission="zope.Public"
-          />
-    </class>
-
-    <!-- AutocompleteMultiSelection widget. -->
-    <class class=".widget.AutocompleteMultiSelectionWidget">
-      <require
-          interface=".interfaces.IAutocompleteMultiSelectionWidget"
           permission="zope.Public"
           />
     </class>
