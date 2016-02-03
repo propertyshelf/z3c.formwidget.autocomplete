@@ -4,8 +4,8 @@
 # zope imports
 from z3c.form.interfaces import DISPLAY_MODE, IFieldWidget
 from z3c.form.widget import FieldWidget
-from z3c.formwidget.query.widget import QuerySourceRadioWidget
-from z3c.formwidget.query.widget import QuerySourceCheckboxWidget
+from z3c.formwidget.autocomplete.query import QuerySourceRadioWidget
+from z3c.formwidget.autocomplete.query import QuerySourceCheckboxWidget
 from z3c.pagelet.browser import BrowserPagelet
 from zope.browserpage import ViewPageTemplateFile
 from zope.interface import implementsOnly, implementer
