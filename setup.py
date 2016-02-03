@@ -52,7 +52,6 @@ setup(
     install_requires=[
         'setuptools',
         # -*- Extra requirements: -*-
-        'z3c.formwidget.query == 0.10',
         'z3c.pagelet',
         'zope.interface',
         'fanstatic',
