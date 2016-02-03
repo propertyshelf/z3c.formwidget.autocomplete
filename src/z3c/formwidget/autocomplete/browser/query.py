@@ -38,6 +38,7 @@ class SourceTerms(z3c.form.term.Terms):
 
         self.terms = source
 
+
 class QueryTerms(z3c.form.term.Terms):
 
     def __init__(self, context, request, form, field, widget, terms):
@@ -49,6 +50,7 @@ class QueryTerms(z3c.form.term.Terms):
 
         self.terms = SimpleVocabulary(terms)
 
+
 class QuerySubForm(z3c.form.form.Form):
     zope.interface.implements(z3c.form.interfaces.ISubForm)
     css_class = 'querySelectSearch'
@@ -57,8 +59,9 @@ class QuerySubForm(z3c.form.form.Form):
 
     fields = z3c.form.field.Fields(
         zope.schema.TextLine(
-        __name__='query',
-        required=False))
+            __name__='query',
+            required=False,
+        ))
 
     def __init__(self, context, request, prefix=None):
         super(QuerySubForm, self).__init__(context, request)
@@ -72,8 +75,10 @@ class QuerySubForm(z3c.form.form.Form):
         if not errors:
             z3c.form.form.applyChanges(self, self.context, data)
 
+
 class QueryContext(object):
     query = None
+
 
 class QuerySourceRadioWidget(z3c.form.browser.radio.RadioWidget):
     """Query source widget that allows single selection."""
@@ -110,7 +115,14 @@ class QuerySourceRadioWidget(z3c.form.browser.radio.RadioWidget):
         self._bound_source = None
         source = self.bound_source
 
-        self.terms = SourceTerms(self.context, self.request, self.form, self.field, self, source)
+        self.terms = SourceTerms(
+            self.context,
+            self.request,
+            self.form,
+            self.field,
+            self,
+            source,
+        )
 
         # If we have values in the request, use these to get the terms.
         # Otherwise, take the value from the current saved value.
@@ -138,7 +150,9 @@ class QuerySourceRadioWidget(z3c.form.browser.radio.RadioWidget):
         elif not self.ignoreContext:
 
             selection = zope.component.getMultiAdapter(
-                (self.context, self.field), z3c.form.interfaces.IDataManager).query()
+                (self.context, self.field),
+                z3c.form.interfaces.IDataManager,
+            ).query()
 
             if selection is z3c.form.interfaces.NOVALUE:
                 selection = []
@@ -161,7 +175,11 @@ class QuerySourceRadioWidget(z3c.form.browser.radio.RadioWidget):
 
         # Set up query form
 
-        subform = self.subform = QuerySubForm(QueryContext(), self.request, self.name)
+        subform = self.subform = QuerySubForm(
+            QueryContext(),
+            self.request,
+            self.name,
+        )
         subform.update()
 
         # Don't carry on any search if we're ignoring the request
@@ -181,7 +199,14 @@ class QuerySourceRadioWidget(z3c.form.browser.radio.RadioWidget):
                         terms.append(term)
 
         # set terms
-        self.terms = QueryTerms(self.context, self.request, self.form, self.field, self, terms)
+        self.terms = QueryTerms(
+            self.context,
+            self.request,
+            self.form,
+            self.field,
+            self,
+            terms,
+        )
 
         # update widget - will set self.value
         self.updateQueryWidget()
@@ -194,7 +219,7 @@ class QuerySourceRadioWidget(z3c.form.browser.radio.RadioWidget):
                 'value': self.noValueToken,
                 'label': self.noValueLabel,
                 'checked': not self.value or self.value[0] == self.noValueToken,
-                })
+            })
 
     def extract(self, default=z3c.form.interfaces.NOVALUE):
         return self.extractQueryWidget(default)
@@ -218,17 +243,21 @@ class QuerySourceRadioWidget(z3c.form.browser.radio.RadioWidget):
     def extractQueryWidget(self, default=z3c.form.interfaces.NOVALUE):
         return z3c.form.browser.radio.RadioWidget.extract(self, default)
 
+
 @zope.interface.implementer(z3c.form.interfaces.IFieldWidget)
 def QuerySourceFieldRadioWidget(field, request):
     return z3c.form.widget.FieldWidget(field, QuerySourceRadioWidget(request))
+
 
 class IgnoreMissingQuerySourceRadioWidget(QuerySourceRadioWidget):
     """Query source widget that allows single selection and ignores missing
     values."""
     ignoreMissing = True
 
+
 @zope.interface.implementer(z3c.form.interfaces.IFieldWidget)
 def IgnoreMissingQuerySourceFieldRadioWidget(field, request):
-    return z3c.form.widget.FieldWidget(field,
-        IgnoreMissingQuerySourceRadioWidget(request))
-
+    return z3c.form.widget.FieldWidget(
+        field,
+        IgnoreMissingQuerySourceRadioWidget(request),
+    )
