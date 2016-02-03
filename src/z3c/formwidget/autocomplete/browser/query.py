@@ -18,8 +18,6 @@ import z3c.form.term
 import z3c.form.browser.radio
 import z3c.form.browser.checkbox
 
-from z3c.formwidget.query import MessageFactory as _
-
 HAS_AC = True
 try:
     from AccessControl.interfaces import IRoleManager
@@ -69,7 +67,7 @@ class QuerySubForm(z3c.form.form.Form):
         if prefix is not None:
             self.prefix = prefix
 
-    @z3c.form.button.buttonAndHandler(_(u"Search"))
+    @z3c.form.button.buttonAndHandler(u"Search")
     def search(self, action):
         data, errors = self.widgets.extract()
         if not errors:
@@ -89,7 +87,7 @@ class QuerySourceRadioWidget(z3c.form.browser.radio.RadioWidget):
     _bound_source = None
     ignoreMissing = False
 
-    noValueLabel = _(u'(nothing)')
+    noValueLabel = u'(nothing)'
 
     @property
     def source(self):
