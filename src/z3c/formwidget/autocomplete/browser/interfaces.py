@@ -3,7 +3,6 @@
 
 # zope imports
 from zope.interface import Interface
-from zope.schema.interfaces import IVocabularyTokenized
 from z3c.form.interfaces import IRadioWidget, ICheckBoxWidget
 
 
@@ -24,11 +23,3 @@ class IAutocompleteSelectionWidget(IAutocompleteWidget, IRadioWidget):
 class IAutocompleteMultiSelectionWidget(IAutocompleteWidget, ICheckBoxWidget):
     """Interface for the autocomplete multi selection widget based of the
     checkbox widget."""
-
-
-class IQuerySource(IVocabularyTokenized):
-    """A source that supports searching
-    """
-
-    def search(query_string):
-        """Return values that match query."""
