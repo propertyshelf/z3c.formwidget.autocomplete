@@ -81,8 +81,8 @@ class AutocompleteBase(object):
     display_template = ViewPageTemplateFile('templates/display.pt')
 
     # Options passed to jQuery auto-completer
-    autoFill = True
-    minChars = 2
+    autoFill = False
+    minChars = 3
     maxResults = 10
     mustMatch = False
     matchContains = True
