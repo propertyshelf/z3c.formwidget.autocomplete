@@ -1,11 +1,16 @@
 <script type="text/javascript" tal:content="structure view/js"></script>
 <div tal:attributes="id string:${view/id}-autocomplete">
-   <div class="row">
+  <div class="row">
     <input tal:attributes="id string:${view/id}-widgets-query;
                            name string:${view/name}.widgets.query"
-           class="text-widget textline-field" title="None"
-           value="" type="text" placeholder="search_for_location"/>
-   </div>
-   <div type="hidden" tal:attributes="id string:${view/id}-input-fields" class="autocompleteInputWidget"
-         tal:content="structure view/renderQueryWidget" />
-</div>
+           class="text-widget textline-field"
+           title="None"
+           value=""
+           type="text"
+           placeholder="search_for_location"/>
+  </div>
+  <div type="hidden"
+       tal:attributes="id string:${view/id}-input-fields"
+       class="autocompleteInputWidget"
+       tal:content="structure view/renderQueryWidget" />
+  </div>
