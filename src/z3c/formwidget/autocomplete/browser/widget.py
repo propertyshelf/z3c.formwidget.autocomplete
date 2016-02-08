@@ -16,38 +16,7 @@ from z3c.formwidget.autocomplete.browser import interfaces, resources
 
 class AutocompleteSearch(BrowserPagelet):
 
-    def validate_access(self):
-        return
-
-        # content = self.context.form.context
-
-        # # If the object is not wrapped in an acquisition chain
-        # # we cannot check any permission.
-        # if not IAcquirer.providedBy(content):
-        #     return
-
-        # url = self.request.getURL()
-        # view_name = url[len(content.absolute_url()):].split('/')[1]
-
-        # # May raise Unauthorized
-
-        # # If the view is 'edit', then traversal prefers the view and
-        # # restrictedTraverse prefers the edit() method present on most CMF
-        # # content. Sigh...
-        # if not view_name.startswith('@@') and not view_name.startswith('++'):
-        #     view_name = '@@' + view_name
-
-        # view_instance = content.restrictedTraverse(view_name)
-        # sm = getSecurityManager()
-        # sm.validate(content, content, view_name, view_instance)
-
     def __call__(self):
-
-        # We want to check that the user was indeed allowed to access the
-        # form for this widget. We can only this now, since security isn't
-        # applied yet during traversal.
-        self.validate_access()
-
         query = self.request.get('q', None)
         if not query:
             return ''
