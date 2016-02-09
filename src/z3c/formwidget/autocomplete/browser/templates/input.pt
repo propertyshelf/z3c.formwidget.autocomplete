@@ -13,4 +13,4 @@
        tal:attributes="id string:${view/id}-input-fields"
        class="autocompleteInputWidget"
        tal:content="structure view/renderQueryWidget" />
-  </div>
+</div>
