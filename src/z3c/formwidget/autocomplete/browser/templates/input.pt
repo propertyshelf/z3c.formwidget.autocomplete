@@ -1,6 +1,6 @@
 <script type="text/javascript" tal:content="structure view/js"></script>
 <div tal:attributes="id string:${view/id}-autocomplete">
-  <div class="row">
+  <div>
     <input tal:attributes="id string:${view/id}-widgets-query;
                            name string:${view/name}.widgets.query"
            class="text-widget textline-field"
