@@ -65,6 +65,7 @@ class AutocompleteBase(object):
     (function($) {
         $().ready(function() {
             $('#%(id)s-input-fields').data('klass','%(klass)s').data('title','%(title)s').data('input_type','%(input_type)s').data('multiple', %(multiple)s);
+            $('#%(id)s-input-fields label').attr('class', 'label');
             $('#%(id)s-buttons-search').remove();
             $('#%(id)s-widgets-query').autocomplete('%(url)s', {
                 autoFill: %(autoFill)s,
