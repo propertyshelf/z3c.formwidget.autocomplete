@@ -33,7 +33,7 @@
     <!-- AutocompleteSelection widget. -->
     <class class=".widget.AutocompleteSelectionWidget">
       <require
-          interface=".interfaces.IAutocompleteSelectionWidget"
+          interface=".interfaces.IAutocompleteWidget"
           permission="zope.Public"
           />
     </class>
