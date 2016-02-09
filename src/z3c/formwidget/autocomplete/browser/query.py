@@ -146,9 +146,6 @@ class QuerySourceRadioWidget(radio.RadioWidget):
     def extract(self, default=interfaces.NOVALUE):
         return self.extractQueryWidget(default)
 
-    def render(self):
-        return self.renderQueryWidget()
-
     def updateQueryWidget(self):
         radio.RadioWidget.update(self)
 
