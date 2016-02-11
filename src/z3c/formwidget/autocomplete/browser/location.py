@@ -5,7 +5,11 @@
 from z3c.form.interfaces import DISPLAY_MODE, IFieldWidget
 from z3c.form.widget import FieldWidget
 from zope.browserpage import ViewPageTemplateFile
+from zope.component import queryUtility
 from zope.interface import implementer
+
+# mls imports
+from propertyshelf.lib.location.utils import ILocationData
 
 # local imports
 from z3c.formwidget.autocomplete.browser import resources
@@ -25,6 +29,10 @@ class LocationAutocompleteWidget(AutocompleteSelectionWidget):
     input_template = ViewPageTemplateFile('templates/location_input.pt')
     display_template = ViewPageTemplateFile('templates/display.pt')
 
+    def __init__(self, request):
+        super(LocationAutocompleteWidget, self).__init__(request)
+        self.location_data = queryUtility(ILocationData)
+
     def render(self):
         resources.autocomplete_js.need()
         resources.autocomplete_css.need()
@@ -32,6 +40,16 @@ class LocationAutocompleteWidget(AutocompleteSelectionWidget):
             return self.display_template(self)
         else:
             return self.input_template(self)
+
+    @property
+    def current_country_name(self):
+        """Return the name of the currently selected country."""
+        return self.location_data.country.name
+
+    @property
+    def current_country_code(self):
+        """Return the country code of the currently selected country."""
+        return self.location_data.country.token
 
 
 @implementer(IFieldWidget)
