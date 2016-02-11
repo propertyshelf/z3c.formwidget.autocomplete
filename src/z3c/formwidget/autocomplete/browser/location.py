@@ -29,6 +29,67 @@ class LocationAutocompleteWidget(AutocompleteSelectionWidget):
     input_template = ViewPageTemplateFile('templates/location_input.pt')
     display_template = ViewPageTemplateFile('templates/display.pt')
 
+    # JavaScript template
+    fallback_js_template = """\
+    $(document).ready(function() {
+      if ($("form select#%(id)s-country").length > 0) {
+        var $form = $('form select#%(id)s-country').closest('form');
+        var $country = $('#%(id)s-country').find("option:selected").attr('value');
+        var $subdivision = $('#%(id)s-subdivision').find("option:selected").attr('value');
+        var $region = $('#%(id)s-region').find("option:selected").attr('value');
+        var $district = $('#%(id)s-district').find("option:selected").attr('value');
+        $('#%(id)s-country').attr({'data-selected': $country});
+        $('#%(id)s-subdivision').attr({'data-selected': $subdivision}).empty();
+        $('#%(id)s-region').attr({'data-selected': $region}).empty();
+        $('#%(id)s-district').attr({'data-selected': $district}).empty();
+        $form.relatedSelects({
+          "%(id)s-subdivision": {
+            depends: "%(id)s-country",
+            loadingMessage: "...",
+            source: "@@location-subdivisions",
+            onLoadingStart: function() {
+              $(this).empty();
+              $("<option/>").val("").text("---").prependTo($(this));
+            },
+            onLoadingEnd: function() {
+              // $("<option/>").val("").text("---").prependTo($(this));
+            }
+          },
+          "%(id)s-region": {
+            depends: "%(id)s-subdivision",
+            loadingMessage: "...",
+            source: "@@location-regions",
+            onLoadingStart: function() {
+              $(this).empty();
+              $("<option/>").val("").text("---").prependTo($(this));
+            },
+            onLoadingEnd: function() {
+              // $("<option/>").val("").text("---").prependTo($(this));
+            },
+            onDependencyChanged: function(satisfied, dependencies) {
+              $('#%(id)s-district').find("option:selected").removeAttr('selected');
+              $("#%(id)s-district option[value='']").attr('selected', 'selected');
+              $('#%(id)s-district').attr({'disabled': 'disabled'});
+            }
+          },
+          "%(id)s-district": {
+            disableIfEmpty: true,
+            depends: "%(id)s-region",
+            loadingMessage: "...",
+            source: "@@location-districts",
+            onLoadingStart: function() {
+              $(this).empty();
+              $("<option/>").val("").text("---").prependTo($(this));
+            },
+            onLoadingEnd: function() {
+              // $("<option/>").val("").text("---").prependTo($(this));
+            }
+          }
+        }).find('#%(id)s-country').change();
+      }
+    });
+    """
+
     def __init__(self, request):
         super(LocationAutocompleteWidget, self).__init__(request)
         self.location_data = queryUtility(ILocationData)
@@ -50,6 +111,14 @@ class LocationAutocompleteWidget(AutocompleteSelectionWidget):
     def current_country_code(self):
         """Return the country code of the currently selected country."""
         return self.location_data.country.token
+
+    def fallback_js(self):
+        """Return the generated javascript code for populating the select
+        boxes.
+        """
+        return self.fallback_js_template % dict(
+            id=self.id,
+        )
 
 
 @implementer(IFieldWidget)

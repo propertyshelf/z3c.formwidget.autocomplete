@@ -102,4 +102,6 @@
            type="text">
     <small class="help-block">Enter the city/town/beach in which the listing is located.</small>
   </div>
+
+  <script type="application/javascript" tal:content="structure view/fallback_js"></script>
 </div>
