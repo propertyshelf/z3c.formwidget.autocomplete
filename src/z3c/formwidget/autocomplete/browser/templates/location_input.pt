@@ -8,10 +8,98 @@
            value=""
            type="text"
            placeholder="Start typing your location..."/>
-    <a href="#">Can't find your location?</a>
+    <a href="#" tal:attributes="href string:#${view/id}-fallback">Can't find your location?</a>
   </div>
   <div type="hidden"
        tal:attributes="id string:${view/id}-input-fields"
        class="autocompleteInputWidget"
        tal:content="structure view/renderQueryWidget" />
+</div>
+<div tal:attributes="id string:${view/id}-fallback" class="fallback" id="">
+
+  <label tal:attributes="for string:${view/id}-country" class="control-label" for="">Country</label>
+  <div class="widget select-widget choice-field controls">
+      <select tal:attributes="id string:${view/id}-country;
+                              name string:${view/name}.country:list;
+                              data-selected view/current_country_code"
+              id=""
+              name=""
+              class="select-widget choice-field"
+              size="1"
+              title="None"
+              data-selected="--NOVALUE--">
+          <option tal:attributes="id string:${view/id}-country-0;
+                                  value view/current_country_code"
+                  tal:content="view/current_country_name"
+                  id="" value="None" selected="selected">CURRENT COUNTRY</option>
+      </select>
+      <input tal:attributes="name string:${view/name}-country-empty-marker"
+             name="" type="hidden" value="1">
+      <small class="help-block">Enter the country in which the listing is located.</small>
+  </div>
+
+  <label tal:attributes="for string:${view/id}-subdivision" class="control-label" for="">State</label>
+  <div class="widget select-widget choice-field controls">
+      <select tal:attributes="id string:${view/id}-subdivision;
+                              name string:${view/name}.subdivision:list"
+              id=""
+              name=""
+              class="optgroup-widget choice-field"
+              size="1"
+              title="None"
+              disabled="disabled"
+              data-selected="--NOVALUE--">
+      </select>
+      <input tal:attributes="name string:${view/name}-subdivision-empty-marker"
+             name="" type="hidden" value="1">
+      <small class="help-block">Enter the state/province in which the listing is located.</small>
+  </div>
+
+  <label tal:attributes="for string:${view/id}-region" class="control-label" for="">County</label>
+  <div class="widget select-widget choice-field controls">
+      <select tal:attributes="id string:${view/id}-region;
+                              name string:${view/name}.region:list"
+              id=""
+              name=""
+              class="optgroup-widget choice-field"
+              size="1"
+              title="None"
+              disabled="disabled"
+              data-selected="--NOVALUE--">
+      </select>
+      <input tal:attributes="name string:${view/name}-region-empty-marker"
+             name="" type="hidden" value="1">
+      <small class="help-block">Enter the county/canton in which the listing is located.</small>
+  </div>
+
+  <label tal:attributes="for string:${view/id}-district" class="control-label" for="">District</label>
+  <div class="widget select-widget choice-field controls">
+      <select tal:attributes="id string:${view/id}-district;
+                              name string:${view/name}.district:list"
+              id=""
+              name=""
+              class="optgroup-widget choice-field"
+              size="1"
+              title="None"
+              disabled="disabled"
+              data-selected="--NOVALUE--">
+      </select>
+      <input tal:attributes="name string:${view/name}-district-empty-marker"
+             name="" type="hidden" value="1">
+      <small class="help-block">Enter the district in which the listing is located.</small>
+  </div>
+
+  <label tal:attributes="for string:${view/id}-city" class="control-label" for="">City/Town</label>
+  <div class="widget text-widget textline-field controls">
+
+    <input tal:attributes="id string:${view/id}-city;
+                           name string:${view/name}.city"
+           id=""
+           name=""
+           class="text-widget required textline-field"
+           title="None"
+           value=""
+           type="text">
+    <small class="help-block">Enter the city/town/beach in which the listing is located.</small>
+  </div>
 </div>
