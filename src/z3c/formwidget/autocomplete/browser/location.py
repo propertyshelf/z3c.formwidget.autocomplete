@@ -46,7 +46,7 @@ class LocationAutocompleteWidget(AutocompleteSelectionWidget):
           "%(id)s-subdivision": {
             depends: "%(id)s-country",
             loadingMessage: "...",
-            source: "@@location-subdivisions",
+            source: "@@location-subdivisions?loc_field_id=%(name)s.country",
             onLoadingStart: function() {
               $(this).empty();
               $("<option/>").val("").text("---").prependTo($(this));
@@ -58,7 +58,7 @@ class LocationAutocompleteWidget(AutocompleteSelectionWidget):
           "%(id)s-region": {
             depends: "%(id)s-subdivision",
             loadingMessage: "...",
-            source: "@@location-regions",
+            source: "@@location-regions?loc_field_id=%(name)s.subdivision",
             onLoadingStart: function() {
               $(this).empty();
               $("<option/>").val("").text("---").prependTo($(this));
@@ -76,7 +76,7 @@ class LocationAutocompleteWidget(AutocompleteSelectionWidget):
             disableIfEmpty: true,
             depends: "%(id)s-region",
             loadingMessage: "...",
-            source: "@@location-districts",
+            source: "@@location-districts?loc_field_id=%(name)s.region",
             onLoadingStart: function() {
               $(this).empty();
               $("<option/>").val("").text("---").prependTo($(this));
@@ -118,6 +118,7 @@ class LocationAutocompleteWidget(AutocompleteSelectionWidget):
         """
         return self.fallback_js_template % dict(
             id=self.id,
+            name=self.name,
         )
 
 
