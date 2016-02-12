@@ -145,6 +145,8 @@ class LocationAutocompleteWidget(AutocompleteSelectionWidget):
         if loc_country and loc_subdivision and loc_region and city:
             if len(loc_region) > 0:
                 loc_region = loc_region[0]
+                if not loc_region:
+                    loc_region = None
             if loc_district is not None and len(loc_district) > 0:
                 loc_district = loc_district[0]
                 if not loc_district:
