@@ -41,7 +41,8 @@
   <label tal:attributes="for string:${view/id}-subdivision" class="control-label" for="">State</label>
   <div class="widget select-widget choice-field controls">
       <select tal:attributes="id string:${view/id}-subdivision;
-                              name string:${view/name}.subdivision:list"
+                              name string:${view/name}.subdivision:list;
+                              data-selected view/current_subdivision_code"
               id=""
               name=""
               class="optgroup-widget choice-field"
@@ -58,7 +59,8 @@
   <label tal:attributes="for string:${view/id}-region" class="control-label" for="">County</label>
   <div class="widget select-widget choice-field controls">
       <select tal:attributes="id string:${view/id}-region;
-                              name string:${view/name}.region:list"
+                              name string:${view/name}.region:list;
+                              data-selected view/current_region_code"
               id=""
               name=""
               class="optgroup-widget choice-field"
@@ -75,7 +77,8 @@
   <label tal:attributes="for string:${view/id}-district" class="control-label" for="">District</label>
   <div class="widget select-widget choice-field controls">
       <select tal:attributes="id string:${view/id}-district;
-                              name string:${view/name}.district:list"
+                              name string:${view/name}.district:list;
+                              data-selected view/current_district_code"
               id=""
               name=""
               class="optgroup-widget choice-field"
@@ -93,7 +96,8 @@
   <div class="widget text-widget textline-field controls">
 
     <input tal:attributes="id string:${view/id}-city;
-                           name string:${view/name}.city"
+                           name string:${view/name}.city;
+                           value view/current_city"
            id=""
            name=""
            class="text-widget required textline-field"

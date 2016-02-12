@@ -93,6 +93,10 @@ class LocationAutocompleteWidget(AutocompleteSelectionWidget):
     def __init__(self, request):
         super(LocationAutocompleteWidget, self).__init__(request)
         self.location_data = queryUtility(utils.ILocationData)
+        self.current_subdivision_code = self.noValueToken
+        self.current_region_code = self.noValueToken
+        self.current_district_code = self.noValueToken
+        self.current_city = u''
 
     def render(self):
         resources.autocomplete_js.need()
@@ -101,6 +105,30 @@ class LocationAutocompleteWidget(AutocompleteSelectionWidget):
             return self.display_template(self)
         else:
             return self.input_template(self)
+
+    def update(self):
+        self.current_subdivision_code = self.noValueToken
+        self.current_region_code = self.noValueToken
+        self.current_district_code = self.noValueToken
+        self.current_city = u''
+        try:
+            super(AutocompleteSelectionWidget, self).update()
+        except LookupError:
+            if self.missing_token is not None:
+                data = utils.get_location_codes_from_key(self.missing_token)
+                self.current_subdivision_code = data.get(
+                    'loc_subdivision',
+                    self.noValueToken,
+                )
+                self.current_region_code = data.get(
+                    'loc_region',
+                    self.noValueToken,
+                )
+                self.current_district_code = data.get(
+                    'loc_district',
+                    self.noValueToken,
+                )
+                self.current_city = data.get('city', u'')
 
     def extract(self, default=NO_VALUE):
         loc_country_id = '{0}.country'.format(self.name)

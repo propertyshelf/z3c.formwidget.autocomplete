@@ -39,6 +39,7 @@ class QuerySourceRadioWidget(radio.RadioWidget):
     _radio = True
     _bound_source = None
     ignoreMissing = False
+    missing_token = None
 
     noValueLabel = u'(nothing)'
 
@@ -81,6 +82,7 @@ class QuerySourceRadioWidget(radio.RadioWidget):
         # Otherwise, take the value from the current saved value.
         terms = []
         request_values = interfaces.NOVALUE
+        self.missing_token = None
         if not self.ignoreRequest:
             request_values = self.extract(default=interfaces.NOVALUE)
 
@@ -96,6 +98,7 @@ class QuerySourceRadioWidget(radio.RadioWidget):
                 except LookupError:
                     # Term no longer available
                     if not self.ignoreMissing:
+                        self.missing_token = token
                         raise
         elif not self.ignoreContext:
             dm = getMultiAdapter(
@@ -109,14 +112,15 @@ class QuerySourceRadioWidget(radio.RadioWidget):
             elif not isinstance(selection, (tuple, set, list)):
                 selection = [selection]
 
-            for value in selection:
-                if not value:
+            for token in selection:
+                if not token:
                     continue
                 try:
-                    terms.append(source.getTermByToken(value))
+                    terms.append(source.getTermByToken(token))
                 except LookupError:
                     # Term no longer available
                     if not self.ignoreMissing:
+                        self.missing_token = token
                         raise
 
         # set terms
