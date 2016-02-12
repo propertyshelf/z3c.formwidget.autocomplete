@@ -2,14 +2,14 @@
 """Location-specific autocomplete widget definition."""
 
 # zope imports
-from z3c.form.interfaces import DISPLAY_MODE, IFieldWidget
+from z3c.form.interfaces import DISPLAY_MODE, IFieldWidget, NO_VALUE
 from z3c.form.widget import FieldWidget
 from zope.browserpage import ViewPageTemplateFile
 from zope.component import queryUtility
 from zope.interface import implementer
 
 # mls imports
-from propertyshelf.lib.location.utils import ILocationData
+from propertyshelf.lib.location import utils
 
 # local imports
 from z3c.formwidget.autocomplete.browser import resources
@@ -92,7 +92,7 @@ class LocationAutocompleteWidget(AutocompleteSelectionWidget):
 
     def __init__(self, request):
         super(LocationAutocompleteWidget, self).__init__(request)
-        self.location_data = queryUtility(ILocationData)
+        self.location_data = queryUtility(utils.ILocationData)
 
     def render(self):
         resources.autocomplete_js.need()
@@ -101,6 +101,36 @@ class LocationAutocompleteWidget(AutocompleteSelectionWidget):
             return self.display_template(self)
         else:
             return self.input_template(self)
+
+    def extract(self, default=NO_VALUE):
+        loc_country_id = '{0}.country'.format(self.name)
+        loc_subdivision_id = '{0}.subdivision'.format(self.name)
+        loc_region_id = '{0}.region'.format(self.name)
+        loc_district_id = '{0}.district'.format(self.name)
+        city_id = '{0}.city'.format(self.name)
+        loc_country = self.request.form.get(loc_country_id, None)
+        loc_subdivision = self.request.form.get(loc_subdivision_id, None)
+        loc_region = self.request.form.get(loc_region_id, None)
+        loc_district = self.request.form.get(loc_district_id, None)
+        city = self.request.form.get(city_id, None)
+
+        if loc_country and loc_subdivision and loc_region and city:
+            if len(loc_region) > 0:
+                loc_region = loc_region[0]
+            if loc_district is not None and len(loc_district) > 0:
+                loc_district = loc_district[0]
+                if not loc_district:
+                    loc_district = None
+            key, value = utils.get_location_key_value(
+                loc_region,
+                loc_district,
+                city,
+            )
+            tool = queryUtility(utils.ILocations)
+            tool.register(key, value)
+            return (key,)
+        else:
+            return super(LocationAutocompleteWidget, self).extract(default)
 
     @property
     def current_country_name(self):
