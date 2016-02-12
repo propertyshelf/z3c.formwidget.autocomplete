@@ -156,9 +156,12 @@ class LocationAutocompleteWidget(AutocompleteSelectionWidget):
                 loc_district,
                 city,
             )
-            tool = queryUtility(utils.ILocations)
-            tool.register(key, value)
-            return (key,)
+            if key is not None:
+                tool = queryUtility(utils.ILocations)
+                tool.register(key, value)
+                return (key,)
+            else:
+                return (self.noValueToken,)
         else:
             return super(LocationAutocompleteWidget, self).extract(default)
 
