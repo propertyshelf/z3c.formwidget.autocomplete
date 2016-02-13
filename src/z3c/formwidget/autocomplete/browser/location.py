@@ -155,7 +155,7 @@ class LocationAutocompleteWidget(AutocompleteSelectionWidget):
         loc_district = self.request.form.get(loc_district_id, None)
         city = self.request.form.get(city_id, None)
 
-        if len(loc_region) > 0:
+        if loc_region is not None and len(loc_region) > 0:
             loc_region = loc_region[0]
             if not loc_region:
                 loc_region = None
