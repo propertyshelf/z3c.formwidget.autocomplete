@@ -30,72 +30,72 @@ class LocationAutocompleteWidget(AutocompleteSelectionWidget):
     display_template = ViewPageTemplateFile('templates/display.pt')
 
     # JavaScript template
-    fallback_js_template = """\
-    (function($) {
-      $('#%(id)s-fallback').hide();
-      $('#%(id)s-fallback_enabled').change(function() {
-        if ($(this).is(":checked")) {
-          $('#%(id)s-fallback').slideDown();
-        } else {
-          $('#%(id)s-fallback').slideUp();
-        }
-      })
-      if ($("form select#%(id)s-country").length > 0) {
-        var $form = $('form select#%(id)s-country').closest('form');
-        var $country = $('#%(id)s-country').find("option:selected").attr('value');
-        var $subdivision = $('#%(id)s-subdivision').find("option:selected").attr('value');
-        var $region = $('#%(id)s-region').find("option:selected").attr('value');
-        var $district = $('#%(id)s-district').find("option:selected").attr('value');
-        $('#%(id)s-country').attr({'data-selected': $country});
-        $('#%(id)s-subdivision').attr({'data-selected': $subdivision}).empty();
-        $('#%(id)s-region').attr({'data-selected': $region}).empty();
-        $('#%(id)s-district').attr({'data-selected': $district}).empty();
-        $form.relatedSelects({
-          "%(id)s-subdivision": {
-            depends: "%(id)s-country",
+    fallback_js_template = """
+    (function($) {{
+      $("#{id}-fallback").hide();
+      $("#{id}-fallback_enabled").change(function() {{
+        if ($(this).is(":checked")) {{
+          $("#{id}-fallback").slideDown();
+        }} else {{
+          $("#{id}-fallback").slideUp();
+        }}
+      }})
+      if ($("form select#{id}-country").length > 0) {{
+        var $form = $('form select#{id}-country').closest('form');
+        var $country = $('#{id}-country').find("option:selected").attr('value');
+        var $subdivision = $('#{id}-subdivision').find("option:selected").attr('value');
+        var $region = $('#{id}-region').find("option:selected").attr('value');
+        var $district = $('#{id}-district').find("option:selected").attr('value');
+        $('#{id}-country').attr({{'data-selected': $country}});
+        $('#{id}-subdivision').attr({{'data-selected': $subdivision}}).empty();
+        $('#{id}-region').attr({{'data-selected': $region}}).empty();
+        $('#{id}-district').attr({{'data-selected': $district}}).empty();
+        $form.relatedSelects({{
+          "{id}-subdivision": {{
+            depends: "{id}-country",
             loadingMessage: "...",
-            source: "@@location-subdivisions?loc_field_id=%(name)s.country",
-            onLoadingStart: function() {
+            source: "@@location-subdivisions?loc_field_id={name}.country",
+            onLoadingStart: function() {{
               $(this).empty();
               $("<option/>").val("").text("---").prependTo($(this));
-            },
-            onLoadingEnd: function() {
+            }},
+            onLoadingEnd: function() {{
               // $("<option/>").val("").text("---").prependTo($(this));
-            }
-          },
-          "%(id)s-region": {
-            depends: "%(id)s-subdivision",
+            }}
+          }},
+          "{id}-region": {{
+            depends: "{id}-subdivision",
             loadingMessage: "...",
-            source: "@@location-regions?loc_field_id=%(name)s.subdivision",
-            onLoadingStart: function() {
+            source: "@@location-regions?loc_field_id={name}.subdivision",
+            onLoadingStart: function() {{
               $(this).empty();
               $("<option/>").val("").text("---").prependTo($(this));
-            },
-            onLoadingEnd: function() {
+            }},
+            onLoadingEnd: function() {{
               // $("<option/>").val("").text("---").prependTo($(this));
-            },
-            onDependencyChanged: function(satisfied, dependencies) {
-              $('#%(id)s-district').find("option:selected").removeAttr('selected');
-              $("#%(id)s-district option[value='']").attr('selected', 'selected');
-              $('#%(id)s-district').attr({'disabled': 'disabled'});
-            }
-          },
-          "%(id)s-district": {
+            }},
+            onDependencyChanged: function(satisfied, dependencies) {{
+              $('#{id}-district').find("option:selected").removeAttr('selected');
+              $("#{id}-district option[value='']").attr('selected', 'selected');
+              $('#{id}-district').attr({{'disabled': 'disabled'}});
+            }}
+          }},
+          "{id}-district": {{
             disableIfEmpty: true,
-            depends: "%(id)s-region",
+            depends: "{id}-region",
             loadingMessage: "...",
-            source: "@@location-districts?loc_field_id=%(name)s.region",
-            onLoadingStart: function() {
+            source: "@@location-districts?loc_field_id={name}.region",
+            onLoadingStart: function() {{
               $(this).empty();
               $("<option/>").val("").text("---").prependTo($(this));
-            },
-            onLoadingEnd: function() {
+            }},
+            onLoadingEnd: function() {{
               // $("<option/>").val("").text("---").prependTo($(this));
-            }
-          }
-        }).find('#%(id)s-country').change();
-      }
-    })(jQuery)
+            }}
+          }}
+        }}).find('#{id}-country').change();
+      }}
+    }})(jQuery)
     """
 
     def __init__(self, request):
@@ -187,7 +187,7 @@ class LocationAutocompleteWidget(AutocompleteSelectionWidget):
         """Return the generated javascript code for populating the select
         boxes.
         """
-        return self.fallback_js_template % dict(
+        return self.fallback_js_template.format(
             id=self.id,
             name=self.name,
         )
