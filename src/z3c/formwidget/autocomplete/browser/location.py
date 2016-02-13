@@ -139,6 +139,11 @@ class LocationAutocompleteWidget(AutocompleteSelectionWidget):
                 self.current_city = data.get('city', u'')
 
     def extract(self, default=NO_VALUE):
+        checkbox_id = '{0}.fallback_enabled'.format(self.name)
+        fb_enabled = self.request.form.get(checkbox_id) == u'fallback_enabled'
+        if not fb_enabled:
+            return super(LocationAutocompleteWidget, self).extract(default)
+
         loc_country_id = '{0}.country'.format(self.name)
         loc_subdivision_id = '{0}.subdivision'.format(self.name)
         loc_region_id = '{0}.region'.format(self.name)
@@ -150,28 +155,25 @@ class LocationAutocompleteWidget(AutocompleteSelectionWidget):
         loc_district = self.request.form.get(loc_district_id, None)
         city = self.request.form.get(city_id, None)
 
-        if loc_country and loc_subdivision and loc_region and city:
-            if len(loc_region) > 0:
-                loc_region = loc_region[0]
-                if not loc_region:
-                    loc_region = None
-            if loc_district is not None and len(loc_district) > 0:
-                loc_district = loc_district[0]
-                if not loc_district:
-                    loc_district = None
-            key, value = utils.get_location_key_value(
-                loc_region,
-                loc_district,
-                city,
-            )
-            if key is not None:
-                tool = queryUtility(utils.ILocations)
-                key = tool.register(key, value)
-                return (key,)
-            else:
-                return (self.noValueToken,)
+        if len(loc_region) > 0:
+            loc_region = loc_region[0]
+            if not loc_region:
+                loc_region = None
+        if loc_district is not None and len(loc_district) > 0:
+            loc_district = loc_district[0]
+            if not loc_district:
+                loc_district = None
+        key, value = utils.get_location_key_value(
+            loc_region,
+            loc_district,
+            city,
+        )
+        if key is not None:
+            tool = queryUtility(utils.ILocations)
+            key = tool.register(key, value)
+            return (key,)
         else:
-            return super(LocationAutocompleteWidget, self).extract(default)
+            return (self.noValueToken,)
 
     @property
     def current_country_name(self):
