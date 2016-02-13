@@ -1,11 +1,19 @@
 <script type="text/javascript" tal:content="structure view/js"></script>
 <style type="text/css">
-  .autocomplete-selection-widget .label {
+  .widget .autocomplete-selection-widget {
+    float: left;
+    margin-right: 0.5em;
+  }
+  .autocompleteInputWidget {
+    margin-top: 0.5em;
+  }
+  .autocompleteInputWidget .label {
     background: transparent;
     color: inherit;
     display: inherit;
     font-size: inherit;
     font-weight: inherit;
+    padding-top: 0.25em;
     text-shadow: none;
   }
 
@@ -24,7 +32,7 @@
         tal:content="structure view/renderQueryWidget"></div>
 
     <div class="widget checkbox-widget list-field controls">
-      <input type="checkbox" id="fallback_enabled" name="fallback_enabled" class="checkbox-widget list-field" title="None" value="fallback_enabled" checked=""
+      <input type="checkbox" id="fallback_enabled" name="fallback_enabled" class="checkbox-widget list-field" title="None" value="fallback_enabled"
           tal:attributes="id string:${view/id}-fallback_enabled;
                           name string:{view/name}.fallback_enabled" />
       <label class="checkbox" for="fallback_enabled"
