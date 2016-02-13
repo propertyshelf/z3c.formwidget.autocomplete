@@ -31,7 +31,7 @@ class LocationAutocompleteWidget(AutocompleteSelectionWidget):
 
     # JavaScript template
     fallback_js_template = """\
-    $(document).ready(function() {
+    (function($) {
       if ($("form select#%(id)s-country").length > 0) {
         var $form = $('form select#%(id)s-country').closest('form');
         var $country = $('#%(id)s-country').find("option:selected").attr('value');
@@ -87,7 +87,7 @@ class LocationAutocompleteWidget(AutocompleteSelectionWidget):
           }
         }).find('#%(id)s-country').change();
       }
-    });
+    })(jQuery)
     """
 
     def __init__(self, request):
