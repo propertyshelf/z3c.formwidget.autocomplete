@@ -186,8 +186,8 @@ class LocationAutocompleteWidget(AutocompleteSelectionWidget):
             tool = queryUtility(utils.ILocations)
             key = tool.register(key, value)
             return (key,)
-        else:
-            return (self.noValueToken,)
+
+        return (self.noValueToken,)
 
     @property
     def current_country_name(self):
