@@ -32,14 +32,24 @@ class LocationAutocompleteWidget(AutocompleteSelectionWidget):
     # JavaScript template
     fallback_js_template = """
 (function($) {{
-  if (!$("#{id}-fallback_enabled").is(":checked")) {{
+  if ($("#{id}-fallback_enabled").is(":checked")) {{
+    $("#{id}-widgets-query").prop("disabled", true);
+    $("#{id}-input-fields input").prop("disabled", true);
+    $("#{id}-input-fields label").css("opacity", .3);
+  }} else {{
     $("#{id}-fallback").hide();
   }}
   $("#{id}-fallback_enabled").change(function() {{
     if ($(this).is(":checked")) {{
       $("#{id}-fallback").slideDown();
+      $("#{id}-widgets-query").prop("disabled", true);
+      $("#{id}-input-fields input").prop("disabled", true);
+      $("#{id}-input-fields label").css("opacity", .3);
     }} else {{
       $("#{id}-fallback").slideUp();
+      $("#{id}-widgets-query").prop("disabled", false);
+      $("#{id}-input-fields input").prop("disabled", false);
+      $("#{id}-input-fields label").css("opacity", 1);
     }}
   }})
   if ($("form select#{id}-country").length > 0) {{
