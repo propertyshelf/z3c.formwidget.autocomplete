@@ -106,6 +106,14 @@ class LocationAutocompleteWidget(AutocompleteSelectionWidget):
         self.current_district_code = self.noValueToken
         self.current_city = u''
 
+    def _extract_choice_data(self, field_name, default=None):
+        value = self.request.form.get(field_name, None)
+        if value is not None and isinstance(value, list) and len(value) > 0:
+            value = value[0]
+        if not value:
+            value = default
+        return value
+
     def render(self):
         resources.autocomplete_js.need()
         resources.autocomplete_css.need()
@@ -144,25 +152,12 @@ class LocationAutocompleteWidget(AutocompleteSelectionWidget):
         if not fb_enabled:
             return super(LocationAutocompleteWidget, self).extract(default)
 
-        loc_country_id = '{0}.country'.format(self.name)
-        loc_subdivision_id = '{0}.subdivision'.format(self.name)
         loc_region_id = '{0}.region'.format(self.name)
         loc_district_id = '{0}.district'.format(self.name)
         city_id = '{0}.city'.format(self.name)
-        loc_country = self.request.form.get(loc_country_id, None)
-        loc_subdivision = self.request.form.get(loc_subdivision_id, None)
-        loc_region = self.request.form.get(loc_region_id, None)
-        loc_district = self.request.form.get(loc_district_id, None)
+        loc_region = self._extract_choice_data(loc_region_id)
+        loc_district = self._extract_choice_data(loc_district_id)
         city = self.request.form.get(city_id, None)
-
-        if loc_region is not None and len(loc_region) > 0:
-            loc_region = loc_region[0]
-            if not loc_region:
-                loc_region = None
-        if loc_district is not None and len(loc_district) > 0:
-            loc_district = loc_district[0]
-            if not loc_district:
-                loc_district = None
         key, value = utils.get_location_key_value(
             loc_region,
             loc_district,
