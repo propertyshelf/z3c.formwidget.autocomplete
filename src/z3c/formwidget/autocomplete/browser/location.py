@@ -105,6 +105,7 @@ class LocationAutocompleteWidget(AutocompleteSelectionWidget):
         self.current_region_code = self.noValueToken
         self.current_district_code = self.noValueToken
         self.current_city = u''
+        self.fallback_checked = None
 
     def _extract_choice_data(self, field_name, default=None):
         value = self.request.form.get(field_name, None)
@@ -139,6 +140,10 @@ class LocationAutocompleteWidget(AutocompleteSelectionWidget):
             '{0}.city'.format(self.name),
             u'',
         )
+        self.fallback_checked = self.request.form.get(
+            '{0}.fallback_enabled'.format(self.name),
+        )
+
         try:
             super(AutocompleteSelectionWidget, self).update()
         except LookupError:
