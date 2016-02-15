@@ -164,6 +164,7 @@ class LocationAutocompleteWidget(AutocompleteSelectionWidget):
                     self.noValueToken,
                 )
                 self.current_city = data.get('city', u'')
+                self.fallback_checked = u'checked'
 
     def extract(self, default=NO_VALUE):
         checkbox_id = '{0}.fallback_enabled'.format(self.name)
