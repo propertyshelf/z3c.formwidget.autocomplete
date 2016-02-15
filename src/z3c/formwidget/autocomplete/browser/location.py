@@ -175,6 +175,8 @@ class LocationAutocompleteWidget(AutocompleteSelectionWidget):
         loc_region = self._extract_choice_data(loc_region_id)
         loc_district = self._extract_choice_data(loc_district_id)
         city = self.request.form.get(city_id, None)
+        if not city:
+            city = None
         key, value = utils.get_location_key_value(
             loc_region,
             loc_district,
