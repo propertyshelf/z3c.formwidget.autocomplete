@@ -32,7 +32,9 @@ class LocationAutocompleteWidget(AutocompleteSelectionWidget):
     # JavaScript template
     fallback_js_template = """
 (function($) {{
-  $("#{id}-fallback").hide();
+  if (!$("#{id}-fallback_enabled").is(":checked")) {{
+    $("#{id}-fallback").hide();
+  }}
   $("#{id}-fallback_enabled").change(function() {{
     if ($(this).is(":checked")) {{
       $("#{id}-fallback").slideDown();
