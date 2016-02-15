@@ -7,7 +7,7 @@
            title="None"
            value=""
            type="text"
-           placeholder="Start typing your location..."/>
+           placeholder="Start typing your selection..."/>
   </div>
   <div type="hidden"
        tal:attributes="id string:${view/id}-input-fields"
