@@ -21,15 +21,6 @@
     <!-- Widget classes. -->
     <!-- =============== -->
 
-    <!-- AutocompleteSelection widget. -->
-    <class class=".location.LocationAutocompleteWidget">
-      <require
-          interface=".interfaces.IAutocompleteWidget"
-          permission="zope.Public"
-          />
-    </class>
-
-
     <!-- Query widget. -->
     <class class=".query.QuerySourceRadioWidget">
       <require
