@@ -123,10 +123,22 @@ class LocationAutocompleteWidget(AutocompleteSelectionWidget):
             return self.input_template(self)
 
     def update(self):
-        self.current_subdivision_code = self.noValueToken
-        self.current_region_code = self.noValueToken
-        self.current_district_code = self.noValueToken
-        self.current_city = u''
+        self.current_subdivision_code = self._extract_choice_data(
+            '{0}.subdivision'.format(self.name),
+            default=self.noValueToken,
+        )
+        self.current_region_code = self._extract_choice_data(
+            '{0}.region'.format(self.name),
+            default=self.noValueToken,
+        )
+        self.current_district_code = self._extract_choice_data(
+            '{0}.district'.format(self.name),
+            default=self.noValueToken,
+        )
+        self.current_city = self.request.form.get(
+            '{0}.city'.format(self.name),
+            u'',
+        )
         try:
             super(AutocompleteSelectionWidget, self).update()
         except LookupError:
