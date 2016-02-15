@@ -140,7 +140,7 @@ class LocationAutocompleteWidget(AutocompleteSelectionWidget):
 
     def extract(self, default=NO_VALUE):
         checkbox_id = '{0}.fallback_enabled'.format(self.name)
-        fb_enabled = self.request.form.get(checkbox_id) == u'fallback_enabled'
+        fb_enabled = self.request.form.get(checkbox_id) == u'checked'
         if not fb_enabled:
             return super(LocationAutocompleteWidget, self).extract(default)
 

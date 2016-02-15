@@ -32,7 +32,7 @@
         tal:content="structure view/renderQueryWidget"></div>
 
     <div class="widget checkbox-widget list-field controls">
-      <input type="checkbox" id="fallback_enabled" name="fallback_enabled" class="checkbox-widget list-field" title="None" value="fallback_enabled"
+      <input type="checkbox" id="fallback_enabled" name="fallback_enabled" class="checkbox-widget list-field" title="None" value="checked"
           tal:attributes="id string:${view/id}-fallback_enabled;
                           name string:${view/name}.fallback_enabled" />
       <label class="checkbox" for="fallback_enabled"
