@@ -55,6 +55,7 @@ class AutocompleteBase(object):
     maxResults = 10
     mustMatch = False
     matchContains = True
+    matchSubset = False
     formatItem = 'function(row, idx, count, value) { return row[1]; }'
     formatResult = 'function(row, idx, count) { return ""; }'
     parseFunction = 'formwidget_autocomplete_parser(' + formatResult + ', 1)'
@@ -73,6 +74,7 @@ class AutocompleteBase(object):
                 max: %(maxResults)d,
                 mustMatch: %(mustMatch)s,
                 matchContains: %(matchContains)s,
+                matchSubset: %(matchSubset)s,
                 formatItem: %(formatItem)s,
                 formatResult: %(formatResult)s,
                 parse: %(parseFunction)s
@@ -124,6 +126,7 @@ class AutocompleteBase(object):
             maxResults=self.maxResults,
             mustMatch=str(self.mustMatch).lower(),
             matchContains=str(self.matchContains).lower(),
+            matchSubset=str(self.matchSubset).lower(),
             formatItem=self.formatItem,
             formatResult=self.formatResult,
             parseFunction=self.parseFunction,
