@@ -4,7 +4,7 @@
 # zope imports
 from zope.component import getMultiAdapter
 from zope.interface import implementer
-from zope.schema.vocabulary import SimpleVocabulary
+from zope.schema.vocabulary import SimpleTerm, SimpleVocabulary
 from zope.schema.interfaces import ISource, IContextSourceBinder
 
 from z3c.form import interfaces, widget, term
@@ -123,6 +123,17 @@ class QuerySourceRadioWidget(radio.RadioWidget):
                         self.missing_token = token
                         raise
 
+        # only necessary to set self.required to be used in the next statement
+        self.updateQueryWidget()
+
+        # add "novalue" option
+        if self._radio and not self.required:
+            terms.insert(0, SimpleTerm(
+                value=self.name,
+                token=self.noValueToken,
+                title=self.noValueLabel,
+            ))
+
         # set terms
         self.terms = QueryTerms(
             self.context,
@@ -133,19 +144,8 @@ class QuerySourceRadioWidget(radio.RadioWidget):
             terms,
         )
 
-        # update widget - will set self.value
+        # update widget - will properly set self.value
         self.updateQueryWidget()
-
-        # add "novalue" option
-        if self._radio and not self.required:
-            checked = not self.value or self.value[0] == self.noValueToken
-            self.items.insert(0, {
-                'id': self.id + '-novalue',
-                'name': self.name,
-                'value': self.noValueToken,
-                'label': self.noValueLabel,
-                'checked': checked,
-            })
 
     def extract(self, default=interfaces.NOVALUE):
         return self.extractQueryWidget(default)
