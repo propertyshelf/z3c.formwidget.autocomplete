@@ -4,7 +4,7 @@ Changelog
 0.2dev0 (unreleased)
 --------------------
 
-- No changes yet
+- Necessary changes to work with z3c.form >= 3.2.10. Items is now a property and the "nothing selected" term must be handled differently.
 
 
 0.1.1 (2017-04-11)
