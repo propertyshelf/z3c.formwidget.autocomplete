@@ -65,17 +65,17 @@ class QuerySourceRadioWidget(radio.RadioWidget):
         return self._bound_source
 
     def update(self):
-        # Allow the source to provide terms until we have more specific ones
-        # from the query. Things do not go well if self.terms is None
+        # Assign self.terms to an empty terms list.
+        # Things do not go well if self.terms is None
         self._bound_source = None
         source = self.bound_source
-        self.terms = SourceTerms(
+        self.terms = QueryTerms(
             self.context,
             self.request,
             self.form,
             self.field,
             self,
-            source,
+            [],
         )
 
         # If we have values in the request, use these to get the terms.
