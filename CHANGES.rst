@@ -1,10 +1,10 @@
 Changelog
 =========
 
-0.2.1dev0 (unreleased)
-----------------------
+0.2.1 (2017-07-04)
+------------------
 
-- No changes yet.
+- With z3c.form >= 3.2.10 the self.terms is no longer compatible with SourceTerms. In some cases, it results in an error trying to iterate over the terms.
 
 
 0.2 (2017-04-12)
