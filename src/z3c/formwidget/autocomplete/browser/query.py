@@ -65,17 +65,17 @@ class QuerySourceRadioWidget(radio.RadioWidget):
         return self._bound_source
 
     def update(self):
-        # Assign self.terms to an empty terms list.
-        # Things do not go well if self.terms is None
+        # The source needs to be set in order for the widget to properly
+        # extract the values from the vocabulary.
         self._bound_source = None
         source = self.bound_source
-        self.terms = QueryTerms(
+        self.terms = SourceTerms(
             self.context,
             self.request,
             self.form,
             self.field,
             self,
-            [],
+            source,
         )
 
         # If we have values in the request, use these to get the terms.
@@ -99,6 +99,15 @@ class QuerySourceRadioWidget(radio.RadioWidget):
                     # Term no longer available
                     if not self.ignoreMissing:
                         self.missing_token = token
+                        # set the terms to an empty list
+                        self.terms = QueryTerms(
+                            self.context,
+                            self.request,
+                            self.form,
+                            self.field,
+                            self,
+                            [],
+                        )
                         raise
         elif not self.ignoreContext:
             dm = getMultiAdapter(
@@ -121,6 +130,15 @@ class QuerySourceRadioWidget(radio.RadioWidget):
                     # Term no longer available
                     if not self.ignoreMissing:
                         self.missing_token = token
+                        # set the terms to an empty list
+                        self.terms = QueryTerms(
+                            self.context,
+                            self.request,
+                            self.form,
+                            self.field,
+                            self,
+                            [],
+                        )
                         raise
 
         # only necessary to set self.required to be used in the next statement
