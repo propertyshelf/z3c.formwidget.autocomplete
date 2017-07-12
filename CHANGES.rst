@@ -4,7 +4,7 @@ Changelog
 0.3.dev0 (unreleased)
 ---------------------
 
-- No changes yet.
+- Need to keep SourceTerms intact. Terms must be cleared out to an empty list when the value no longer exists in the vocabulary.
 
 
 0.2.1 (2017-07-04)
